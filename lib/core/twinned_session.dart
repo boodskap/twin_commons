@@ -35,6 +35,8 @@ class TwinnedSession {
 
   static final TwinnedSession _instance = TwinnedSession._privateConstructor();
 
+  digital.TwinSysInfo? twinSysInfo;
+
   String _authToken = '';
   String _domainKey = '';
   bool _debug = true;
