@@ -1,6 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Storage {
+  static Future<bool> remove(String key) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    return sp.remove(key);
+  }
+
   static Future<bool> putString(String key, String value) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     var res = await sp.setString(key, value);

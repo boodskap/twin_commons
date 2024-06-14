@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:twin_commons/core/storage.dart';
 import 'package:twinned_api/api/twinned.swagger.dart' as digital;
 
 class TwinnedSession {
@@ -31,6 +32,10 @@ class TwinnedSession {
 
   Future cleanup() async {
     return SessionManager().destroy();
+  }
+
+  void logout() {
+    Storage.remove('session');
   }
 
   static final TwinnedSession _instance = TwinnedSession._privateConstructor();
