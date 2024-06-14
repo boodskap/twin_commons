@@ -121,7 +121,6 @@ class TwinImageHelper {
   static Future<twin.ImageFileEntityRes?>? uploadDomainImage() async {
     try {
       var file = await pickFile();
-
       if (null == file) return null;
 
       var mpr = web.MultipartRequest(
@@ -240,5 +239,247 @@ class TwinImageHelper {
       scale: scale,
       fit: fit,
     );
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadDeviceModelIcon(
+      {required String modelId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/model/${twin.TwinImageUploadModelImageTypeModelIdPostImageType.icon.value}/$modelId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadDeviceModelImage(
+      {required String modelId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/model/${twin.TwinImageUploadModelImageTypeModelIdPostImageType.image.value}/$modelId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadDeviceModelBanner(
+      {required String modelId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/model/${twin.TwinImageUploadModelImageTypeModelIdPostImageType.banner.value}/$modelId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadConditionIcon(
+      {required String conditionId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/condition/$conditionId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadAlarmIcon(
+      {required String alarmId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/alarm/${twin.TwinImageUploadModelImageTypeModelIdPostImageType.icon.value}/$alarmId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadDisplayIcon(
+      {required String displayId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/display/$displayId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadControlIcon(
+      {required String controlId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/control/$controlId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadEventIcon(
+      {required String eventId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/event/$eventId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadTriggerIcon(
+      {required String triggerId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/trigger/$triggerId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadDeviceIcon(
+      {required String deviceId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/device/${twin.TwinImageUploadModelImageTypeModelIdPostImageType.icon.value}/$deviceId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadDeviceImage(
+      {required String deviceId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/device/${twin.TwinImageUploadModelImageTypeModelIdPostImageType.image.value}/$deviceId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadDeviceBanner(
+      {required String deviceId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/device/${twin.TwinImageUploadModelImageTypeModelIdPostImageType.banner.value}/$deviceId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadMenuIcon({
+    required int menuIndex,
+    required String menuId,
+  }) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/menu/$menuIndex/$menuId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadMenuGroupIcon(
+      {required String menuGroupId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/menugroup/$menuGroupId",
+      ),
+    );
+
+    return _upload(mpr, file);
+  }
+
+  static Future<twin.ImageFileEntityRes?> uploadScreenBanner(
+      {required String screenId}) async {
+    var file = await pickFile();
+    if (null == file) return null;
+
+    var mpr = web.MultipartRequest(
+      "POST",
+      Uri.https(
+        TwinnedSession.instance.host,
+        "/rest/nocode/TwinImage/upload/screen/$screenId",
+      ),
+    );
+
+    return _upload(mpr, file);
   }
 }
