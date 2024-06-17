@@ -10,6 +10,27 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  verification_api:
+    git:
+      url: https://github.com/boodskap/verification_api.git
+      ref: main
+
+  nocode_api:
+    git:
+      url: https://github.com/boodskap/nocode_api.git
+      ref: main
+
+  twinned_api:
+    git:
+      url: https://github.com/boodskap/twinned_api.git
+      ref: main
+
+  twinned_models:
+    git:
+      url: https://github.com/boodskap/twinned_models.git
+      ref: main
+    #  path:
+    #    twinned_models
   chopper: ^7.0.7+1
   json_annotation: ^4.8.1
   collection: ^1.17.2
@@ -103,29 +124,8 @@ dependencies:
   percent_indicator: ^4.2.3
   syncfusion_flutter_sliders: ^25.2.7
   vm_service: ^14.2.1
-
-  verification_api:
-    git:
-      url: https://github.com/boodskap/verification_api.git
-      ref: main
-
-  nocode_api:
-    git:
-      url: https://github.com/boodskap/nocode_api.git
-      ref: main
-
-  twinned_api:
-    git:
-      url: https://github.com/boodskap/twinned_api.git
-      ref: main
-
-  twinned_models:
-    git:
-      url: https://github.com/boodskap/twinned_models.git
-      ref: main
-    #  path:
-    #    twinned_models
-
+  go_router: ^14.2.0
+  flutter_native_splash: ^2.4.0
 
 dev_dependencies:
   flutter_test:
