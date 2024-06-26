@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:twin_commons/core/storage.dart';
 import 'package:twinned_api/api/twinned.swagger.dart' as digital;
+import 'package:nocode_api/api/nocode.swagger.dart' as lowcode;
 
 class TwinnedSession {
   TwinnedSession._privateConstructor() {
@@ -16,7 +17,7 @@ class TwinnedSession {
 
   void init(
       {bool debug = true,
-      String host = 'twinned.digital',
+      String host = 'lb.boodskap.io',
       String authToken = '',
       String domainKey = ''}) {
     _debug = debug;
@@ -26,6 +27,8 @@ class TwinnedSession {
 
     _twinned =
         digital.Twinned.create(baseUrl: Uri.https(_host, '/rest/nocode'));
+
+    _nocode = lowcode.Nocode.create(baseUrl: Uri.https(_host, '/rest/nocode'));
 
     debugPrint('HOST: $_host, DomainKey: $domainKey, ApiKey: $authToken');
   }
@@ -47,7 +50,9 @@ class TwinnedSession {
   bool _debug = true;
   String _host = '';
   digital.Twinned _twinned = digital.Twinned.create(
-      baseUrl: Uri.https('twinned.boodskap.io', '/rest/nocode'));
+      baseUrl: Uri.https('lb.boodskap.io', '/rest/nocode'));
+  lowcode.Nocode _nocode = lowcode.Nocode.create(
+      baseUrl: Uri.https('lb.boodskap.io', '/rest/nocode'));
 
   static TwinnedSession get instance => _instance;
 
@@ -56,4 +61,5 @@ class TwinnedSession {
   String get authToken => _authToken;
   String get domainKey => _domainKey;
   digital.Twinned get twin => _twinned;
+  lowcode.Nocode get nocode => _nocode;
 }
