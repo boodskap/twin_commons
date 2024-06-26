@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:twin_commons/core/storage.dart';
 import 'package:twinned_api/api/twinned.swagger.dart' as digital;
+import 'package:nocode_api/api/nocode.swagger.dart' as lowcode;
+import 'package:verification_api/api/verification.swagger.dart' as verification;
 
 class TwinnedSession {
   TwinnedSession._privateConstructor() {
@@ -16,7 +18,7 @@ class TwinnedSession {
 
   void init(
       {bool debug = true,
-      String host = 'twinned.digital',
+      String host = 'rest.boodskap.io',
       String authToken = '',
       String domainKey = ''}) {
     _debug = debug;
@@ -26,6 +28,11 @@ class TwinnedSession {
 
     _twinned =
         digital.Twinned.create(baseUrl: Uri.https(_host, '/rest/nocode'));
+
+    _nocode = lowcode.Nocode.create(baseUrl: Uri.https(_host, '/rest/nocode'));
+
+    _vapi = verification.Verification.create(
+        baseUrl: Uri.https(_host, '/rest/nocode'));
 
     debugPrint('HOST: $_host, DomainKey: $domainKey, ApiKey: $authToken');
   }
@@ -46,8 +53,9 @@ class TwinnedSession {
   String _domainKey = '';
   bool _debug = true;
   String _host = '';
-  digital.Twinned _twinned = digital.Twinned.create(
-      baseUrl: Uri.https('twinned.boodskap.io', '/rest/nocode'));
+  late digital.Twinned _twinned;
+  late lowcode.Nocode _nocode;
+  late verification.Verification _vapi;
 
   static TwinnedSession get instance => _instance;
 
@@ -56,4 +64,6 @@ class TwinnedSession {
   String get authToken => _authToken;
   String get domainKey => _domainKey;
   digital.Twinned get twin => _twinned;
+  lowcode.Nocode get nocode => _nocode;
+  verification.Verification get vapi => _vapi;
 }
