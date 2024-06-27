@@ -16,15 +16,18 @@ class TwinnedSession {
     //await session.update();
   }
 
-  void init(
-      {bool debug = true,
-      String host = 'rest.boodskap.io',
-      String authToken = '',
-      String domainKey = ''}) {
+  void init({
+    bool debug = true,
+    String host = 'rest.boodskap.io',
+    String authToken = '',
+    String domainKey = '',
+    String noCodeAuthToken = '',
+  }) {
     _debug = debug;
     _host = host;
     _authToken = authToken;
     _domainKey = domainKey;
+    _noCodeAuthToken = noCodeAuthToken;
 
     _twinned =
         digital.Twinned.create(baseUrl: Uri.https(_host, '/rest/nocode'));
@@ -51,6 +54,7 @@ class TwinnedSession {
 
   String _authToken = '';
   String _domainKey = '';
+  String _noCodeAuthToken = '';
   bool _debug = true;
   String _host = '';
   late digital.Twinned _twinned;
@@ -63,6 +67,7 @@ class TwinnedSession {
   bool get debug => _debug;
   String get authToken => _authToken;
   String get domainKey => _domainKey;
+  String get noCodeAuthToken => _noCodeAuthToken;
   digital.Twinned get twin => _twinned;
   lowcode.Nocode get nocode => _nocode;
   verification.Verification get vapi => _vapi;
