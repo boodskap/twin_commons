@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
+import 'package:flutter/services.dart';
 import 'package:twin_commons/core/base_state.dart';
 import 'package:twin_commons/core/twinned_session.dart';
 
@@ -40,6 +41,9 @@ class _ParameterUnitsDropdownState extends BaseState<ParameterUnitsDropdown> {
         border: const OutlineInputBorder(),
         labelText: widget.label,
       ),
+      inputFormatter: [
+        FilteringTextInputFormatter.deny(RegExp(r"\s")),
+      ],
     );
   }
 
