@@ -13,8 +13,14 @@ class ParameterUnitsDropdown extends StatefulWidget {
   /// Function that handles the submission of the input
   final Function(String)? onSubmitted;
 
+  final String? label;
+
   const ParameterUnitsDropdown(
-      {super.key, this.controller, this.onChanged, this.onSubmitted});
+      {super.key,
+      this.controller,
+      this.onChanged,
+      this.onSubmitted,
+      this.label = 'Unit'});
 
   @override
   State<ParameterUnitsDropdown> createState() => _ParameterUnitsDropdownState();
@@ -26,10 +32,15 @@ class _ParameterUnitsDropdownState extends BaseState<ParameterUnitsDropdown> {
   @override
   Widget build(BuildContext context) {
     return EasyAutocomplete(
-        suggestions: suggestions,
-        controller: widget.controller,
-        onChanged: widget.onChanged,
-        onSubmitted: widget.onSubmitted);
+      suggestions: suggestions,
+      controller: widget.controller,
+      onChanged: widget.onChanged,
+      onSubmitted: widget.onSubmitted,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        labelText: widget.label,
+      ),
+    );
   }
 
   Future _load() async {
