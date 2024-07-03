@@ -5,20 +5,18 @@ import 'package:twin_commons/core/base_state.dart';
 import 'package:twin_commons/core/twinned_session.dart';
 
 class ParameterUnitsDropdown extends StatefulWidget {
-  /// Text editing controller
-  final TextEditingController? controller;
-
   /// Function that handles the changes to the input
   final Function(String)? onChanged;
 
   /// Function that handles the submission of the input
   final Function(String)? onSubmitted;
 
+  final String text;
   final String? label;
 
   const ParameterUnitsDropdown(
       {super.key,
-      this.controller,
+      required this.text,
       this.onChanged,
       this.onSubmitted,
       this.label = 'Unit'});
@@ -32,18 +30,39 @@ class _ParameterUnitsDropdownState extends BaseState<ParameterUnitsDropdown> {
 
   @override
   Widget build(BuildContext context) {
+    if (suggestions.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    List<DropdownMenuEntry<String>> entries = [];
+    for (String e in suggestions) {
+      entries.add(DropdownMenuEntry<String>(value: e, label: e));
+    }
+
+    return DropdownMenu<String>(
+      enableSearch: true,
+      hintText: 'Select Unit',
+      initialSelection: widget.text,
+      dropdownMenuEntries: entries,
+      menuHeight: 350,
+      width: 175,
+      onSelected: (val) {
+        if (null != val) {
+          debugPrint('UNIT: $val');
+          widget.onChanged!(val!);
+        }
+      },
+    );
+
     return EasyAutocomplete(
+      initialValue: widget.text,
       suggestions: suggestions,
-      controller: widget.controller,
       onChanged: widget.onChanged,
       onSubmitted: widget.onSubmitted,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         labelText: widget.label,
       ),
-      inputFormatter: [
-        FilteringTextInputFormatter.deny(RegExp(r"\s")),
-      ],
     );
   }
 
