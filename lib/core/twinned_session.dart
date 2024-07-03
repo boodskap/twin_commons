@@ -17,11 +17,11 @@ class TwinnedSession {
   }
 
   void init({
-    bool debug = true,
-    String host = 'rest.boodskap.io',
-    String authToken = '',
-    String domainKey = '',
-    String noCodeAuthToken = '',
+    required bool debug,
+    required String host,
+    required String authToken,
+    required String domainKey,
+    required noCodeAuthToken,
   }) {
     _debug = debug;
     _host = host;
