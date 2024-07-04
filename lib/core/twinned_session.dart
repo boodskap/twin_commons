@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:twin_commons/core/base_state.dart';
 import 'package:twin_commons/core/storage.dart';
+import 'package:twin_commons/util/nocode_utils.dart';
 import 'package:twinned_api/api/twinned.swagger.dart' as digital;
 import 'package:nocode_api/api/nocode.swagger.dart' as lowcode;
 import 'package:verification_api/api/verification.swagger.dart' as verification;
@@ -51,6 +53,8 @@ class TwinnedSession {
   static final TwinnedSession _instance = TwinnedSession._privateConstructor();
 
   digital.TwinSysInfo? twinSysInfo;
+  digital.TwinUser? _user;
+  List<digital.Client>? clients;
 
   String _authToken = '';
   String _domainKey = '';
@@ -71,4 +75,49 @@ class TwinnedSession {
   digital.Twinned get twin => _twinned;
   lowcode.Nocode get nocode => _nocode;
   verification.Verification get vapi => _vapi;
+
+  Future<digital.TwinUser?> getUser() async {
+    if (null == _user) {
+      await TwinUtils.execute(() async {
+        var res = await twin.getMyProfile(apikey: authToken);
+        if (TwinUtils.validateResponse(res)) {
+          _user = res.body?.entity;
+        }
+      });
+    }
+
+    return _user;
+  }
+
+  bool isAdmin() {
+    if (null != _user && null != _user!.platformRoles) {
+      digital.TwinUser u = _user!;
+      return u.platformRoles!.contains('domainadmin');
+    }
+    return false;
+  }
+
+  bool isClientAdmin() {
+    if (null != _user && null != _user!.platformRoles) {
+      digital.TwinUser u = _user!;
+      return u.platformRoles!.contains('clientadmin');
+    }
+    return false;
+  }
+
+  Future<List<digital.Client>> getClients() async {
+    if (null == clients &&
+        null != _user &&
+        null != _user!.clientIds &&
+        _user!.clientIds!.isNotEmpty) {
+      await TwinUtils.execute(() async {
+        var res = await twin.getClients(
+            apikey: authToken, body: digital.GetReq(ids: _user!.clientIds!));
+        if (TwinUtils.validateResponse(res)) {
+          clients = res.body?.values;
+        }
+      });
+    }
+    return clients ?? [];
+  }
 }

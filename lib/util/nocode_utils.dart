@@ -9,6 +9,14 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:google_fonts/google_fonts.dart';
 
 class TwinUtils {
+  static Future execute(Future Function() sync, {bool debug = false}) async {
+    try {
+      await sync();
+    } catch (e, s) {
+      debugPrint('$e\n$s');
+    }
+  }
+
   static dynamic getParameterValue(String name, DeviceData dd) {
     Map<String, dynamic> map = dd.data as Map<String, dynamic>;
     return map[name] ?? '-';
