@@ -47,7 +47,11 @@ class TwinnedSession {
   }
 
   void logout() {
-    Storage.remove('session');
+    _authToken = '';
+    _domainKey = '';
+    _noCodeAuthToken = '';
+    _user = null;
+    clients = null;
   }
 
   static final TwinnedSession _instance = TwinnedSession._privateConstructor();
