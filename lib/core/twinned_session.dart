@@ -105,6 +105,12 @@ class TwinnedSession {
     return false;
   }
 
+  bool isClient() {
+    return (null != _user &&
+        null != _user!.clientIds &&
+        _user!.clientIds!.isNotEmpty);
+  }
+
   Future<List<digital.Client>> getClients() async {
     if (null == clients &&
         null != _user &&
