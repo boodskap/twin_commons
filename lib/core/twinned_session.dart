@@ -130,4 +130,18 @@ class TwinnedSession {
     }
     return clients ?? [];
   }
+
+  Future<List<String>> getClientIds() async {
+    List<digital.Client> clients = await getClients();
+
+    if (clients.isNotEmpty) {
+      List<String> ids = [];
+      for (var c in clients) {
+        ids.add(c.id);
+      }
+      return ids;
+    }
+
+    return [];
+  }
 }
