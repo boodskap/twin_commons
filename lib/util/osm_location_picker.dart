@@ -6,8 +6,11 @@ import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_ti
 typedef OnPicked = void Function(LatLng latLng);
 
 class OSMLocationPicker extends StatefulWidget {
+  final double? longitude;
+  final double? latitude;
   final OnPicked onPicked;
-  const OSMLocationPicker({super.key, required this.onPicked});
+  const OSMLocationPicker(
+      {super.key, required this.onPicked, this.longitude, this.latitude});
 
   @override
   State<OSMLocationPicker> createState() => _OSMLocationPickerState();
@@ -15,14 +18,25 @@ class OSMLocationPicker extends StatefulWidget {
 
 class _OSMLocationPickerState extends State<OSMLocationPicker> {
   bool counterRotate = false;
-  LatLng _point = const LatLng(32.776665, -96.796989);
+  late LatLng _point;
   Alignment selectedAlignment = Alignment.topCenter;
-  late final customMarkers = <Marker>[
-    buildPin(_point),
-  ];
+  late final List<Marker> customMarkers;
+
+  @override
+  void initState() {
+    super.initState();
+    _point =
+        LatLng(widget.latitude ?? 32.776665, widget.longitude ?? -96.796989);
+    customMarkers = <Marker>[
+      buildPin(_point),
+    ];
+  }
 
   Marker buildPin(LatLng point) => Marker(
-      width: 45, height: 45, point: point, child: const Icon(Icons.location_pin));
+      width: 45,
+      height: 45,
+      point: point,
+      child: const Icon(Icons.location_pin));
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +53,6 @@ class _OSMLocationPickerState extends State<OSMLocationPicker> {
                   customMarkers.add(buildPin(point));
                 });
               },
-              //initialCenter: LatLng(51.5, -0.09),
               initialZoom: 3,
               interactionOptions: const InteractionOptions(
                   flags: InteractiveFlag.pinchZoom |
