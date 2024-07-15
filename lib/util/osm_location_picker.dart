@@ -79,15 +79,18 @@ class _OSMLocationPickerState extends State<OSMLocationPicker> {
         const SizedBox(
           height: 8,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              'Lat:${_point.latitude}, Lon:${_point.longitude}',
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
+        if (!widget.viewMode)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Lat:${_point.latitude}, Lon:${_point.longitude}',
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis),
+              ),
+            ],
+          ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
