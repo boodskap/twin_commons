@@ -96,11 +96,12 @@ class _OSMLocationPickerState extends State<OSMLocationPicker> {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancel')),
+            if (!widget.viewMode)
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel')),
             const SizedBox(
               width: 8,
             ),
