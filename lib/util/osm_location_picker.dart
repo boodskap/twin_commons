@@ -9,8 +9,13 @@ class OSMLocationPicker extends StatefulWidget {
   final double? longitude;
   final double? latitude;
   final OnPicked onPicked;
+  final bool viewMode;
   const OSMLocationPicker(
-      {super.key, required this.onPicked, this.longitude, this.latitude});
+      {super.key,
+      required this.onPicked,
+      this.longitude,
+      this.latitude,
+      this.viewMode = false});
 
   @override
   State<OSMLocationPicker> createState() => _OSMLocationPickerState();
@@ -86,19 +91,21 @@ class _OSMLocationPickerState extends State<OSMLocationPicker> {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancel')),
+            if (!widget.viewMode)
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel')),
             const SizedBox(
               width: 8,
             ),
-            ElevatedButton(
-                onPressed: () {
-                  widget.onPicked(_point);
-                },
-                child: const Text('Select')),
+            if (!widget.viewMode)
+              ElevatedButton(
+                  onPressed: () {
+                    widget.onPicked(_point);
+                  },
+                  child: const Text('Select')),
             const SizedBox(
               width: 8,
             ),
