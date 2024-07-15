@@ -51,13 +51,15 @@ class _OSMLocationPickerState extends State<OSMLocationPicker> {
           child: FlutterMap(
             options: MapOptions(
               initialCenter: _point,
-              onTap: (tapPosition, point) {
-                _point = point;
-                setState(() {
-                  customMarkers.clear();
-                  customMarkers.add(buildPin(point));
-                });
-              },
+              onTap: widget.viewMode
+                  ? null
+                  : (tapPosition, point) {
+                      _point = point;
+                      setState(() {
+                        customMarkers.clear();
+                        customMarkers.add(buildPin(point));
+                      });
+                    },
               initialZoom: 3,
               interactionOptions: const InteractionOptions(
                   flags: InteractiveFlag.pinchZoom |
