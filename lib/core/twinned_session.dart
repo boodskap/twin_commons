@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:twin_commons/core/base_state.dart';
-import 'package:twin_commons/core/storage.dart';
 import 'package:twin_commons/util/nocode_utils.dart';
 import 'package:twinned_api/api/twinned.swagger.dart' as digital;
 import 'package:nocode_api/api/nocode.swagger.dart' as lowcode;
@@ -143,5 +141,28 @@ class TwinnedSession {
     }
 
     return [];
+  }
+
+  Future<digital.Usage> getUsage() async {
+    await TwinUtils.execute(() async {
+      var res = await twin.getUsageByDomainKey(domainKey: _domainKey);
+      if (TwinUtils.validateResponse(res)) {
+        return res.body!.entity!;
+      }
+    });
+    return const digital.Usage(
+        usedPooledDataPoints: 0,
+        usedDataPoints: 0,
+        usedDeviceModels: 0,
+        usedDevices: 0,
+        usedUsers: 0,
+        usedClients: 0,
+        usedDashboards: 0,
+        availablePooledDataPoints: 0,
+        availableDataPoints: 0,
+        availableDevices: 0,
+        availableUsers: 0,
+        availableClients: 0,
+        availableDashboards: 0);
   }
 }
