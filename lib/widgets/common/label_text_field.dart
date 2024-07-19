@@ -54,7 +54,7 @@ class LabelTextField extends StatelessWidget {
         suffixText: suffixText,
       ),
       style: style,
-      textAlign:textAlign,
+      textAlign:textAlign??TextAlign.center,
     );
   }
 }
