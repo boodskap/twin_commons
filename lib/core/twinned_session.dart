@@ -46,17 +46,16 @@ class TwinnedSession {
 
   void logout() {
     _authToken = '';
-    _domainKey = '';
     _noCodeAuthToken = '';
     _user = null;
-    clients = null;
+    _clients = null;
   }
 
   static final TwinnedSession _instance = TwinnedSession._privateConstructor();
 
   digital.TwinSysInfo? twinSysInfo;
   digital.TwinUser? _user;
-  List<digital.Client>? clients;
+  List<digital.Client>? _clients;
 
   String _authToken = '';
   String _domainKey = '';
@@ -114,7 +113,7 @@ class TwinnedSession {
   }
 
   Future<List<digital.Client>> getClients() async {
-    if (null == clients &&
+    if (null == _clients &&
         null != _user &&
         null != _user!.clientIds &&
         _user!.clientIds!.isNotEmpty) {
@@ -122,11 +121,11 @@ class TwinnedSession {
         var res = await twin.getClients(
             apikey: authToken, body: digital.GetReq(ids: _user!.clientIds!));
         if (TwinUtils.validateResponse(res)) {
-          clients = res.body?.values;
+          _clients = res.body?.values;
         }
       });
     }
-    return clients ?? [];
+    return _clients ?? [];
   }
 
   Future<List<String>> getClientIds() async {
