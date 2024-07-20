@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as web;
 import 'package:twinned_api/api/twinned.swagger.dart' as twin;
-import 'package:file_picker/_internal/file_picker_web.dart';
+import 'package:file_picker/_internal/file_picker_web.dart'
+    if (dart.library.html) 'package:file_picker/file_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:twin_commons/core/twinned_session.dart';
 
@@ -16,11 +18,21 @@ class TwinImageHelper {
         'JPG',
         'PNG'
       ]}) async {
-    FilePickerResult? result = await FilePickerWeb.platform.pickFiles(
-      allowMultiple: false,
-      type: FileType.custom,
-      allowedExtensions: allowedExtensions,
-    );
+    FilePickerResult? result;
+
+    if (kIsWeb) {
+      result = await FilePickerWeb.platform.pickFiles(
+        allowMultiple: false,
+        type: FileType.custom,
+        allowedExtensions: allowedExtensions,
+      );
+    } else {
+      result = await FilePicker.platform.pickFiles(
+        allowMultiple: false,
+        type: FileType.custom,
+        allowedExtensions: allowedExtensions,
+      );
+    }
 
     if (null != result) {
       return result.files.first;
