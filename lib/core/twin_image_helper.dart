@@ -3,10 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as web;
 import 'package:twinned_api/api/twinned.swagger.dart' as twin;
-import 'package:file_picker/_internal/file_picker_web.dart'
-    if (dart.library.html) 'package:file_picker/file_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:twin_commons/core/twinned_session.dart';
+import 'package:twin_commons/core/picker.dart'
+    if (dart.library.html) 'package:twin_commons/core/picker_web.dart'
+    if (dart.library.io) 'package:twin_commons/core/picker_io.dart';
 
 class TwinImageHelper {
   static Future<PlatformFile?> pickFile(
@@ -20,19 +21,11 @@ class TwinImageHelper {
       ]}) async {
     FilePickerResult? result;
 
-    if (kIsWeb) {
-      result = await FilePickerWeb.platform.pickFiles(
-        allowMultiple: false,
-        type: FileType.custom,
-        allowedExtensions: allowedExtensions,
-      );
-    } else {
-      result = await FilePicker.platform.pickFiles(
-        allowMultiple: false,
-        type: FileType.custom,
-        allowedExtensions: allowedExtensions,
-      );
-    }
+    result = await pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: allowedExtensions,
+    );
 
     if (null != result) {
       return result.files.first;
