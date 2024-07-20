@@ -14,6 +14,7 @@ class DeviceFieldAnalytics extends StatefulWidget {
   final twin.Twinned twinned;
   final String apiKey;
   final int pageSize;
+  final bool canDeleteRecord;
 
   const DeviceFieldAnalytics({
     super.key,
@@ -22,6 +23,7 @@ class DeviceFieldAnalytics extends StatefulWidget {
     required this.deviceModel,
     required this.twinned,
     required this.apiKey,
+    required this.canDeleteRecord,
     this.pageSize = 10000,
   });
 
