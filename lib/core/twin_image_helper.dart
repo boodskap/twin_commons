@@ -233,11 +233,25 @@ class TwinImageHelper {
   }
 
   static Image getDomainImage(String id,
-      {double scale = 1.0, BoxFit fit = BoxFit.contain}) {
+      {double scale = 1.0,
+      BoxFit fit = BoxFit.contain,
+      double? width,
+      double? height}) {
+    return getImage(TwinnedSession.instance.domainKey, id,
+        scale: scale, fit: fit, width: width, height: height);
+  }
+
+  static Image getImage(String domainKey, String id,
+      {double scale = 1.0,
+      BoxFit fit = BoxFit.contain,
+      double? width,
+      double? height}) {
     return Image.network(
-      'https://${TwinnedSession.instance.host}/rest/nocode/TwinImage/download/${TwinnedSession.instance.domainKey}/$id',
+      'https://${TwinnedSession.instance.host}/rest/nocode/TwinImage/download/$domainKey/$id',
       scale: scale,
       fit: fit,
+      width: width,
+      height: height,
     );
   }
 
