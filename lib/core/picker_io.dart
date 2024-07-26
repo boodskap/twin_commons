@@ -1,4 +1,5 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 
 Future<FilePickerResult?> pickFiles({
   String? dialogTitle,
@@ -9,11 +10,12 @@ Future<FilePickerResult?> pickFiles({
   bool allowCompression = true,
   int compressionQuality = 30,
   bool allowMultiple = false,
-  bool withData = false,
+  bool withData = true,
   bool withReadStream = false,
   bool lockParentWindow = false,
   bool readSequential = false,
 }) async {
+  debugPrint('IO file picker');
   return FilePicker.platform.pickFiles(
     dialogTitle: dialogTitle,
     initialDirectory: initialDirectory,
