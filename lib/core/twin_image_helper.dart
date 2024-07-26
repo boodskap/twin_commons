@@ -19,9 +19,7 @@ class TwinImageHelper {
         'JPG',
         'PNG'
       ]}) async {
-    FilePickerResult? result;
-
-    result = await pickFiles(
+    FilePickerResult? result = await pickFiles(
       allowMultiple: false,
       type: FileType.custom,
       allowedExtensions: allowedExtensions,
