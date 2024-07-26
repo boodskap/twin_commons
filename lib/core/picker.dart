@@ -9,7 +9,7 @@ Future<FilePickerResult?> pickFiles({
   bool allowCompression = true,
   int compressionQuality = 30,
   bool allowMultiple = false,
-  bool withData = false,
+  bool withData = true,
   bool withReadStream = false,
   bool lockParentWindow = false,
   bool readSequential = false,
