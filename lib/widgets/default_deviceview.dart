@@ -10,33 +10,57 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:twin_commons/core/sensor_widget.dart';
 
 typedef OnDeviceDoubleTapped = Future<void> Function(twin.DeviceData dd);
+typedef OnAnalyticsTapped = Future<void> Function(
+    twin.DeviceModel mode, twin.DeviceData dd);
 typedef OnDeviceAnalyticsTapped = Future<void> Function(
     String field, twin.DeviceModel mode, twin.DeviceData dd);
+typedef OnSensorSelected = Function(SensorWidgetType? type);
+typedef OnSettingsSaved = Function(Map<String, dynamic> settings);
+typedef OnAssetTapped = void Function(String assetId, twin.DeviceData dd);
+typedef OnDeviceTapped = void Function(String deviceId, twin.DeviceData dd);
+typedef OnDeviceModelTapped = void Function(String modelId, twin.DeviceData dd);
+typedef OnPremiseTapped = void Function(String premiseId, twin.DeviceData dd);
+typedef OnFacilityTapped = void Function(String facilityId, twin.DeviceData dd);
+typedef OnFloorTapped = void Function(String floorId, twin.DeviceData dd);
 
 class DefaultDeviceView extends StatefulWidget {
   final twin.DeviceData? deviceData;
   final String deviceId;
   final twin.Twinned twinned;
   final String authToken;
-  final OnDeviceDoubleTapped onDeviceDoubleTapped;
-  final OnDeviceAnalyticsTapped onDeviceAnalyticsTapped;
   final TextStyle titleTextStyle;
   final TextStyle infoTextStyle;
   final TextStyle widgetTextStyle;
+  final OnDeviceDoubleTapped? onDeviceDoubleTapped;
+  final OnAnalyticsTapped? onAnalyticsTapped;
+  final OnDeviceAnalyticsTapped? onDeviceAnalyticsTapped;
+  final OnAssetTapped? onAssetTapped;
+  final OnDeviceTapped? onDeviceTapped;
+  final OnDeviceModelTapped? onDeviceModelTapped;
+  final OnPremiseTapped? onPremiseTapped;
+  final OnFacilityTapped? onFacilityTapped;
+  final OnFloorTapped? onFloorTapped;
   const DefaultDeviceView({
     super.key,
     this.deviceData,
     required this.deviceId,
     required this.twinned,
     required this.authToken,
-    required this.onDeviceDoubleTapped,
-    required this.onDeviceAnalyticsTapped,
     this.titleTextStyle =
         const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
     this.infoTextStyle =
         const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
     this.widgetTextStyle =
         const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+    this.onDeviceDoubleTapped,
+    this.onAnalyticsTapped,
+    this.onDeviceAnalyticsTapped,
+    this.onAssetTapped,
+    this.onDeviceTapped,
+    this.onDeviceModelTapped,
+    this.onPremiseTapped,
+    this.onFacilityTapped,
+    this.onFloorTapped,
   });
 
   @override
@@ -48,7 +72,7 @@ class _DefaultDeviceViewState extends BaseState<DefaultDeviceView> {
   final List<Widget> _components = [];
   twin.DeviceData? _data;
   String title = '?';
-  String info = '?';
+  Widget? _info;
   String reported = '';
 
   @override
@@ -66,11 +90,8 @@ class _DefaultDeviceViewState extends BaseState<DefaultDeviceView> {
                   title,
                   style: widget.titleTextStyle,
                 ),
-                divider(),
-                Text(
-                  info,
-                  style: widget.infoTextStyle,
-                ),
+                if (null != _info) divider(),
+                if (null != _info) _info!,
                 divider(),
                 Wrap(
                   spacing: 4,
@@ -125,7 +146,7 @@ class _DefaultDeviceViewState extends BaseState<DefaultDeviceView> {
     await execute(() async {
       if (null != widget.deviceData) {
         _data = widget.deviceData;
-        title = _data!.deviceName ?? '-';
+        title = _data!.deviceName ?? _data!.hardwareDeviceId;
       } else {
         var res = await widget.twinned.getDevice(
             apikey: widget.authToken,
@@ -206,10 +227,12 @@ class _DefaultDeviceViewState extends BaseState<DefaultDeviceView> {
                 child: Container(
                     color: Colors.white,
                     child: InkWell(
-                      onTap: !hasAnalytics
+                      onTap: (!hasAnalytics ||
+                              null == widget.onDeviceAnalyticsTapped)
                           ? null
                           : () {
-                              widget.onDeviceAnalyticsTapped(field, model!, dd);
+                              widget.onDeviceAnalyticsTapped!(
+                                  field, model!, dd);
                             },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -244,10 +267,12 @@ class _DefaultDeviceViewState extends BaseState<DefaultDeviceView> {
                 child: Card(
                     elevation: 5,
                     child: InkWell(
-                      onTap: !hasAnalytics
+                      onTap: (!hasAnalytics ||
+                              null == widget.onDeviceAnalyticsTapped)
                           ? null
                           : () {
-                              widget.onDeviceAnalyticsTapped(field, model!, dd);
+                              widget.onDeviceAnalyticsTapped!(
+                                  field, model!, dd);
                             },
                       child: Container(
                           color: Colors.white,
@@ -260,7 +285,103 @@ class _DefaultDeviceViewState extends BaseState<DefaultDeviceView> {
         }
       }
 
-      info = '${dd.premise} -> ${dd.facility} -> ${dd.floor}';
+      _info = Wrap(
+        spacing: 8.0,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        alignment: WrapAlignment.center,
+        children: [
+          if (null != dd.premise && dd.premise!.isNotEmpty)
+            InkWell(
+              onTap: null == widget.onPremiseTapped
+                  ? null
+                  : () {
+                      widget.onPremiseTapped!(dd.premiseId!, dd);
+                    },
+              child: Tooltip(
+                message: 'Premise',
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.home),
+                    divider(horizontal: true),
+                    Text(
+                      dd.premise!,
+                      style: widget.infoTextStyle,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          if (null != dd.facility && dd.facility!.isNotEmpty)
+            InkWell(
+              onTap: null == widget.onFacilityTapped
+                  ? null
+                  : () {
+                      widget.onFacilityTapped!(dd.facilityId!, dd);
+                    },
+              child: Tooltip(
+                message: 'Facility',
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.business),
+                    divider(horizontal: true),
+                    Text(
+                      dd.facility!,
+                      style: widget.infoTextStyle,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          if (null != dd.floor && dd.floor!.isNotEmpty)
+            InkWell(
+              onTap: null == widget.onFloorTapped
+                  ? null
+                  : () {
+                      widget.onFloorTapped!(dd.floorId!, dd);
+                    },
+              child: Tooltip(
+                message: 'Floor',
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.cabin),
+                    divider(horizontal: true),
+                    Text(
+                      dd.floor!,
+                      style: widget.infoTextStyle,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          if (null != dd.asset && dd.asset!.isNotEmpty)
+            InkWell(
+              onTap: null == widget.onAssetTapped
+                  ? null
+                  : () {
+                      widget.onAssetTapped!(dd.assetId!, dd);
+                    },
+              child: Tooltip(
+                message: 'Asset',
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.view_comfy),
+                    divider(horizontal: true),
+                    Text(
+                      dd.asset!,
+                      style: widget.infoTextStyle,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      );
+
+      //info = '${dd.premise} -> ${dd.facility} -> ${dd.floor}';
 
       if (lastReported > 0) {
         var dt = DateTime.fromMillisecondsSinceEpoch(lastReported);
