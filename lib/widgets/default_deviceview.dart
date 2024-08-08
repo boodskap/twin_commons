@@ -212,7 +212,7 @@ class _DefaultDeviceViewState extends BaseState<DefaultDeviceView> {
 
         if (type == SensorWidgetType.none) {
           if (icon.isEmpty) {
-            sensorWidget = const Icon(Icons.device_unknown_sharp);
+            sensorWidget = const SizedBox.shrink();
           } else {
             sensorWidget = SizedBox(
                 width: 45, child: TwinImageHelper.getDomainImage(icon));
@@ -238,13 +238,20 @@ class _DefaultDeviceViewState extends BaseState<DefaultDeviceView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '$label : $value $unit',
+                            label,
                             style: widget.widgetTextStyle,
                           ),
                           const SizedBox(
                             height: 8,
                           ),
                           sensorWidget,
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            '$value $unit',
+                            style: widget.widgetTextStyle,
+                          ),
                         ],
                       ),
                     )),
