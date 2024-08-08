@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:twin_commons/core/base_state.dart';
 import 'package:twin_commons/core/twin_image_helper.dart';
@@ -8,6 +7,7 @@ import 'package:twin_commons/widgets/device_component.dart';
 import 'package:twinned_api/api/twinned.swagger.dart' as twin;
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:twin_commons/core/sensor_widget.dart';
+import 'package:flutter/services.dart';
 
 typedef OnDeviceDoubleTapped = Future<void> Function(twin.DeviceData dd);
 typedef OnAnalyticsTapped = Future<void> Function(
@@ -385,6 +385,44 @@ class _DefaultDeviceViewState extends BaseState<DefaultDeviceView> {
                 ),
               ),
             ),
+          InkWell(
+            onTap: () async {
+              await Clipboard.setData(ClipboardData(text: dd.modelId));
+            },
+            child: Tooltip(
+              message: 'Device Model',
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.developer_board_sharp),
+                  divider(horizontal: true),
+                  Text(
+                    dd.modelName ?? '',
+                    style: widget.infoTextStyle,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () async {
+              await Clipboard.setData(ClipboardData(text: dd.hardwareDeviceId));
+            },
+            child: Tooltip(
+              message: 'Device Serial#',
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.memory_rounded),
+                  divider(horizontal: true),
+                  Text(
+                    dd.hardwareDeviceId,
+                    style: widget.infoTextStyle,
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       );
 
