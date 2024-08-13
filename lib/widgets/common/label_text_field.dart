@@ -16,6 +16,9 @@ class LabelTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final String? suffixText;
   final TextAlign? textAlign;
+  TextStyle? labelTextStyle;
+  OutlineInputBorder? focusedBorder;
+  OutlineInputBorder? enabledBorder;
 
   LabelTextField({
     super.key,
@@ -33,6 +36,9 @@ class LabelTextField extends StatelessWidget {
     this.keyboardType,
     this.suffixText,
     this.textAlign,
+    this.labelTextStyle,
+    this.focusedBorder,
+    this.enabledBorder,
   });
 
   @override
@@ -52,9 +58,12 @@ class LabelTextField extends StatelessWidget {
         border: const OutlineInputBorder(),
         labelText: label,
         suffixText: suffixText,
+        labelStyle: labelTextStyle,
+        focusedBorder: focusedBorder,
+        enabledBorder: enabledBorder,
       ),
       style: style,
-      textAlign:textAlign??TextAlign.center,
+      textAlign: textAlign ?? TextAlign.center,
     );
   }
 }
