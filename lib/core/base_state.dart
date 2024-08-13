@@ -215,6 +215,18 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     return TwinnedSession.instance.isAdmin();
   }
 
+  bool isClientAdmin() {
+    return TwinnedSession.instance.isClientAdmin();
+  }
+
+  bool isClient() {
+    return TwinnedSession.instance.isClient();
+  }
+
+  bool canCreate() {
+    return isAdmin() || isClientAdmin();
+  }
+
   Future<bool> canEdit({required List<String>? clientIds}) async {
     if (TwinnedSession.instance.isAdmin()) return true;
 
