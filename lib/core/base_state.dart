@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:eventify/eventify.dart' as event;
+import 'package:twin_commons/core/twinned_session.dart';
 
 SizedBox divider(
     {bool horizontal = false, double height = 8, double width = 8}) {
@@ -208,6 +209,24 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     if (debug) {
       debugPrint('Finished executing');
     }
+  }
+
+  bool isAdmin() {
+    return TwinnedSession.instance.isAdmin();
+  }
+
+  Future<bool> canEdit({required List<String>? clientIds}) async {
+    if (TwinnedSession.instance.isAdmin()) return true;
+
+    if (TwinnedSession.instance.isClientAdmin()) {
+      if (null == clientIds || clientIds!.isEmpty) return false;
+
+      List<String> userClients = await TwinnedSession.instance.getClientIds();
+
+      return userClients.toSet().intersection(clientIds!.toSet()).isNotEmpty;
+    }
+
+    return false;
   }
 }
 
