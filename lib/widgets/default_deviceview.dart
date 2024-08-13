@@ -16,6 +16,8 @@ typedef OnDeviceAnalyticsTapped = Future<void> Function(
     String field, twin.DeviceModel mode, twin.DeviceData dd);
 typedef OnSensorSelected = Function(SensorWidgetType? type);
 typedef OnSettingsSaved = Function(Map<String, dynamic> settings);
+typedef OnAssetModelTapped = void Function(
+    String assetModelId, twin.DeviceData dd);
 typedef OnAssetTapped = void Function(String assetId, twin.DeviceData dd);
 typedef OnDeviceTapped = void Function(String deviceId, twin.DeviceData dd);
 typedef OnDeviceModelTapped = void Function(String modelId, twin.DeviceData dd);
@@ -34,6 +36,7 @@ class DefaultDeviceView extends StatefulWidget {
   final OnDeviceDoubleTapped? onDeviceDoubleTapped;
   final OnAnalyticsTapped? onAnalyticsTapped;
   final OnDeviceAnalyticsTapped? onDeviceAnalyticsTapped;
+  final OnAssetModelTapped? onAssetModelTapped;
   final OnAssetTapped? onAssetTapped;
   final OnDeviceTapped? onDeviceTapped;
   final OnDeviceModelTapped? onDeviceModelTapped;
@@ -55,6 +58,7 @@ class DefaultDeviceView extends StatefulWidget {
     this.onDeviceDoubleTapped,
     this.onAnalyticsTapped,
     this.onDeviceAnalyticsTapped,
+    this.onAssetModelTapped,
     this.onAssetTapped,
     this.onDeviceTapped,
     this.onDeviceModelTapped,
