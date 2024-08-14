@@ -21,6 +21,7 @@ typedef OnAssetModelTapped = void Function(
 typedef OnAssetTapped = void Function(String assetId, twin.DeviceData dd);
 typedef OnDeviceTapped = void Function(String deviceId, twin.DeviceData dd);
 typedef OnDeviceModelTapped = void Function(String modelId, twin.DeviceData dd);
+typedef OnClientTapped = void Function(String clientId, twin.DeviceData dd);
 typedef OnPremiseTapped = void Function(String premiseId, twin.DeviceData dd);
 typedef OnFacilityTapped = void Function(String facilityId, twin.DeviceData dd);
 typedef OnFloorTapped = void Function(String floorId, twin.DeviceData dd);
