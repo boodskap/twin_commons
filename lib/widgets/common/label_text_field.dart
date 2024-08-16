@@ -63,7 +63,7 @@ class LabelTextField extends StatelessWidget {
         enabledBorder: enabledBorder,
       ),
       style: style,
-      textAlign: textAlign ?? TextAlign.center,
+      textAlign: textAlign ?? TextAlign.start,
     );
   }
 }
