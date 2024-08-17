@@ -242,16 +242,8 @@ class TwinImageHelper {
       BoxFit fit = BoxFit.contain,
       double? width,
       double? height}) {
-    String key =
-        '${TwinnedSession.instance.domainKey}.$id.${fit.name}.${width ?? 0}.${height ?? 0}';
-    Image? image = _images[key];
-    if (null != image) {
-      return image;
-    }
-    image = getImage(TwinnedSession.instance.domainKey, id,
+    return getImage(TwinnedSession.instance.domainKey, id,
         scale: scale, fit: fit, width: width, height: height);
-    _images[key] = image;
-    return image!;
   }
 
   static Image getImage(String domainKey, String id,
@@ -259,13 +251,26 @@ class TwinImageHelper {
       BoxFit fit = BoxFit.contain,
       double? width,
       double? height}) {
-    return Image.network(
+    String key =
+        '${TwinnedSession.instance.domainKey}$id$scale${fit.name}${width ?? 0}${height ?? 0}';
+
+    Image? image = _images[key];
+
+    if (null != image) {
+      return image;
+    }
+
+    image = Image.network(
       'https://${TwinnedSession.instance.host}/rest/nocode/TwinImage/download/$domainKey/$id',
       scale: scale,
       fit: fit,
       width: width,
       height: height,
     );
+
+    _images[key] = image;
+
+    return image;
   }
 
   static Future<twin.ImageFileEntityRes?> uploadDeviceModelIcon(
