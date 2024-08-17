@@ -235,13 +235,23 @@ class TwinImageHelper {
     return _upload(mpr, file);
   }
 
+  static final Map<String, Image> _images = <String, Image>{};
+
   static Image getDomainImage(String id,
       {double scale = 1.0,
       BoxFit fit = BoxFit.contain,
       double? width,
       double? height}) {
-    return getImage(TwinnedSession.instance.domainKey, id,
+    String key =
+        '${TwinnedSession.instance.domainKey}.$id.${fit.name}.${width ?? 0}.${height ?? 0}';
+    Image? image = _images[key];
+    if (null != image) {
+      return image;
+    }
+    image = getImage(TwinnedSession.instance.domainKey, id,
         scale: scale, fit: fit, width: width, height: height);
+    _images[key] = image;
+    return image!;
   }
 
   static Image getImage(String domainKey, String id,
