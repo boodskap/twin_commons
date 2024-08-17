@@ -276,7 +276,6 @@ class TwinImageHelper {
     return CachedNetworkImage(
       imageUrl:
           "https://${TwinnedSession.instance.host}/rest/nocode/TwinImage/download/$domainKey/$id",
-      scale: scale,
       width: width,
       height: height,
       fit: fit,
