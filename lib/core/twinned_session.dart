@@ -28,6 +28,8 @@ class TwinnedSession {
     _authToken = authToken;
     _domainKey = domainKey;
     _noCodeAuthToken = noCodeAuthToken;
+    _user = null;
+    _clients = null;
 
     _twinned =
         digital.Twinned.create(baseUrl: Uri.https(_host, '/rest/nocode'));
