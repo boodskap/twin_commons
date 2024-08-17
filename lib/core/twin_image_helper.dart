@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as web;
@@ -235,8 +236,6 @@ class TwinImageHelper {
     return _upload(mpr, file);
   }
 
-  static final Map<String, Image> _images = <String, Image>{};
-
   static Image getDomainImage(String id,
       {double scale = 1.0,
       BoxFit fit = BoxFit.contain,
@@ -251,26 +250,39 @@ class TwinImageHelper {
       BoxFit fit = BoxFit.contain,
       double? width,
       double? height}) {
-    String key =
-        '${TwinnedSession.instance.domainKey}$id$scale${fit.name}${width ?? 0}${height ?? 0}';
-
-    Image? image = _images[key];
-
-    if (null != image) {
-      return image;
-    }
-
-    image = Image.network(
+    return Image.network(
       'https://${TwinnedSession.instance.host}/rest/nocode/TwinImage/download/$domainKey/$id',
       scale: scale,
       fit: fit,
       width: width,
       height: height,
     );
+  }
 
-    _images[key] = image;
+  static CachedNetworkImage getCachedDomainImage(String id,
+      {double scale = 1.0,
+      BoxFit fit = BoxFit.contain,
+      double? width,
+      double? height}) {
+    return getCachedImage(TwinnedSession.instance.domainKey, id,
+        scale: scale, fit: fit, width: width, height: height);
+  }
 
-    return image;
+  static CachedNetworkImage getCachedImage(String domainKey, String id,
+      {double scale = 1.0,
+      BoxFit fit = BoxFit.contain,
+      double? width,
+      double? height}) {
+    return CachedNetworkImage(
+      imageUrl:
+          "https://${TwinnedSession.instance.host}/rest/nocode/TwinImage/download/$domainKey/$id",
+      scale: scale,
+      width: width,
+      height: height,
+      fit: fit,
+      placeholder: (context, url) => const CircularProgressIndicator(),
+      errorWidget: (context, url, error) => const Icon(Icons.image),
+    );
   }
 
   static Future<twin.ImageFileEntityRes?> uploadDeviceModelIcon(
