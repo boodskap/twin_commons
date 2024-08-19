@@ -1,5 +1,5 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:file_picker/_internal/file_picker_web.dart';
+import 'package:file_picker/_internal/file_picker_web.dart' as webpicker;
 import 'package:flutter/cupertino.dart';
 
 Future<FilePickerResult?> pickFiles({
@@ -17,7 +17,7 @@ Future<FilePickerResult?> pickFiles({
   bool readSequential = false,
 }) async {
   debugPrint('Web file picker');
-  return FilePickerWeb.platform.pickFiles(
+  return FilePicker.platform.pickFiles(
     dialogTitle: dialogTitle,
     initialDirectory: initialDirectory,
     type: type,

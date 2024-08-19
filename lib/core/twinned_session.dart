@@ -22,12 +22,14 @@ class TwinnedSession {
     required String authToken,
     required String domainKey,
     required noCodeAuthToken,
+    required orgId,
   }) {
     _debug = debug;
     _host = host;
     _authToken = authToken;
     _domainKey = domainKey;
     _noCodeAuthToken = noCodeAuthToken;
+    _orgId = orgId;
     _user = null;
     _clients = null;
 
@@ -64,6 +66,7 @@ class TwinnedSession {
   String _noCodeAuthToken = '';
   bool _debug = true;
   String _host = '';
+  String _orgId = '';
   late digital.Twinned _twinned;
   late lowcode.Nocode _nocode;
   late verification.Verification _vapi;
@@ -75,6 +78,7 @@ class TwinnedSession {
   String get authToken => _authToken;
   String get domainKey => _domainKey;
   String get noCodeAuthToken => _noCodeAuthToken;
+  String get orgId => _orgId;
   digital.Twinned get twin => _twinned;
   lowcode.Nocode get nocode => _nocode;
   verification.Verification get vapi => _vapi;
@@ -82,7 +86,7 @@ class TwinnedSession {
   Future<digital.TwinUser?> getUser() async {
     if (null == _user) {
       await TwinUtils.execute(() async {
-        var res = await twin.getMyProfile(apikey: authToken);
+        var res = await twin.getMyProfile(apikey: authToken, orgId: _orgId);
         if (TwinUtils.validateResponse(res)) {
           _user = res.body?.entity;
         }
