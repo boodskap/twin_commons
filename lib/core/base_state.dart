@@ -193,17 +193,27 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     }
   }
 
-  Future execute(Future Function() sync, {bool debug = false}) async {
+  Future execute(Future Function() sync,
+      {bool debug = false, Function? onError}) async {
     if (debug) {
       debugPrint('Executing...');
     }
-    //await _lock.synchronized(() async {});
     busy();
     try {
       await sync();
     } catch (e, s) {
       debugPrintStack();
       debugPrint('ERROR: $e');
+      if (null != onError) {
+        onError();
+      } else {
+        String errS = e.toString();
+        if (errS.contains('ClientError')) {
+          alert('Network Error', 'Please check your internet connection');
+        } else {
+          alert('Error', e.toString());
+        }
+      }
     } finally {
       busy(busy: false);
     }
