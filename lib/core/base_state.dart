@@ -185,11 +185,22 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     );
   }
 
-  Future safeFunction(Future Function() sync) async {
+  Future safeFunction(Future Function() sync, {Function? onError}) async {
     try {
       await sync();
     } catch (e, s) {
-      debugPrint('$e\n$s');
+      debugPrintStack();
+      debugPrint('ERROR: $e');
+      if (null != onError) {
+        onError();
+      } else {
+        String errS = e.toString();
+        if (errS.contains('ClientException')) {
+          alert('Network Error', 'Please check your internet connection');
+        } else {
+          alert('Error', errS);
+        }
+      }
     }
   }
 
@@ -208,10 +219,10 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
         onError();
       } else {
         String errS = e.toString();
-        if (errS.contains('ClientError')) {
+        if (errS.contains('ClientException')) {
           alert('Network Error', 'Please check your internet connection');
         } else {
-          alert('Error', e.toString());
+          alert('Error', errS);
         }
       }
     } finally {
