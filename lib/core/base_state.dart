@@ -202,7 +202,8 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     try {
       await sync();
     } catch (e, s) {
-      debugPrint('$e\n$s');
+      debugPrintStack();
+      debugPrint('ERROR: $e');
     } finally {
       busy(busy: false);
     }
