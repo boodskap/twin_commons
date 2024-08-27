@@ -41,7 +41,8 @@ class TwinnedSession {
     _vapi = verification.Verification.create(
         baseUrl: Uri.https(_host, '/rest/nocode'));
 
-    debugPrint('HOST: $_host, DomainKey: $domainKey, ApiKey: $authToken');
+    debugPrint(
+        'HOST: $_host, DomainKey: $domainKey, ApiKey: $authToken, OrgId: $orgId');
   }
 
   Future cleanup() async {
