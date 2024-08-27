@@ -42,7 +42,7 @@ class TwinnedSession {
         baseUrl: Uri.https(_host, '/rest/nocode'));
 
     debugPrint(
-        'HOST: $_host, DomainKey: $domainKey, ApiKey: $authToken, OrgId: $orgId');
+        'HOST: $_host, DomainKey: $domainKey, ApiKey: $authToken, OrgId: $orgId, NoCodeAuthToken: $noCodeAuthToken');
   }
 
   Future cleanup() async {
