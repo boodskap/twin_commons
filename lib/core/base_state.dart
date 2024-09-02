@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:eventify/eventify.dart' as event;
 import 'package:twin_commons/core/twinned_session.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 SizedBox divider(
     {bool horizontal = false, double height = 8, double width = 8}) {
@@ -166,17 +167,32 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
       {required String title,
       required Widget body,
       bool barrierDismissible = true,
+      TextStyle? titleStyle,
+      TextStyle? contentStyle,
       double? width,
       double? height}) async {
     width ??= MediaQuery.of(context).size.width / 3;
     height ??= MediaQuery.of(context).size.height / 2;
 
+    TextStyle titleTextStyle = titleStyle ??
+        GoogleFonts.lato(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        );
+    TextStyle contentTextStyle = contentStyle ??
+        GoogleFonts.lato(
+          fontSize: 18,
+          color: Colors.black,
+        );
     return showDialog<void>(
       context: context,
       barrierDismissible: barrierDismissible, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
           title: title.isEmpty ? null : Text(title),
+          titleTextStyle: titleTextStyle,
+          contentTextStyle: contentTextStyle,
           content: SingleChildScrollView(
             child: SizedBox(width: width, height: height, child: body),
           ),
