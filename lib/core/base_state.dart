@@ -168,7 +168,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
       required Widget body,
       bool barrierDismissible = true,
       TextStyle? titleStyle,
-      TextStyle? contentStyle,
+      // TextStyle? contentStyle,
       double? width,
       double? height}) async {
     width ??= MediaQuery.of(context).size.width / 3;
@@ -180,11 +180,11 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
           fontWeight: FontWeight.bold,
           color: Colors.black,
         );
-    TextStyle contentTextStyle = contentStyle ??
-        GoogleFonts.lato(
-          fontSize: 18,
-          color: Colors.black,
-        );
+    // TextStyle contentTextStyle = contentStyle ??
+    //     GoogleFonts.lato(
+    //       fontSize: 18,
+    //       color: Colors.black,
+    //     );
     return showDialog<void>(
       context: context,
       barrierDismissible: barrierDismissible, // user must tap button!
@@ -192,7 +192,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
         return AlertDialog(
           title: title.isEmpty ? null : Text(title),
           titleTextStyle: titleTextStyle,
-          contentTextStyle: contentTextStyle,
+          // contentTextStyle: contentTextStyle,
           content: SingleChildScrollView(
             child: SizedBox(width: width, height: height, child: body),
           ),
