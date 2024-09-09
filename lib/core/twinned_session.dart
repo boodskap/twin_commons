@@ -4,6 +4,7 @@ import 'package:twin_commons/util/nocode_utils.dart';
 import 'package:twinned_api/api/twinned.swagger.dart' as digital;
 import 'package:nocode_api/api/nocode.swagger.dart' as lowcode;
 import 'package:verification_api/api/verification.swagger.dart' as verification;
+import 'package:pulse_admin_api/pulse_admin_api.dart' as pulse;
 
 class TwinnedSession {
   TwinnedSession._privateConstructor() {
@@ -41,6 +42,9 @@ class TwinnedSession {
     _vapi = verification.Verification.create(
         baseUrl: Uri.https(_host, '/rest/nocode'));
 
+    _pulseAdmin =
+        pulse.PulseAdmin.create(baseUrl: Uri.https(_host, '/rest/nocode'));
+
     debugPrint(
         'HOST: $_host, DomainKey: $domainKey, ApiKey: $authToken, OrgId: $orgId, NoCodeAuthToken: $noCodeAuthToken');
   }
@@ -71,6 +75,7 @@ class TwinnedSession {
   late digital.Twinned _twinned;
   late lowcode.Nocode _nocode;
   late verification.Verification _vapi;
+  late pulse.PulseAdmin _pulseAdmin;
 
   static TwinnedSession get instance => _instance;
 
@@ -83,6 +88,7 @@ class TwinnedSession {
   digital.Twinned get twin => _twinned;
   lowcode.Nocode get nocode => _nocode;
   verification.Verification get vapi => _vapi;
+  pulse.PulseAdmin get pulseAdmin => _pulseAdmin;
 
   Future<digital.TwinUser?> getUser() async {
     if (null == _user) {
