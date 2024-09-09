@@ -103,6 +103,10 @@ class TwinnedSession {
     return _user;
   }
 
+  void setUser(digital.TwinUser user) {
+    _user = user;
+  }
+
   bool isAdmin() {
     if (null != _user && null != _user!.platformRoles) {
       digital.TwinUser u = _user!;
