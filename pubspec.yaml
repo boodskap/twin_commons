@@ -34,6 +34,12 @@ dependencies:
       ref: main
     #  path:
     #    twinned_models
+
+  pulse_admin_api:
+    git:
+      url: https://github.com/boodskap/pulse_admin_api.git
+      ref: main
+
   #----------------- End Internal Dependencies -----------------#
 
   #----------------- External Dependencies ---------------------#
