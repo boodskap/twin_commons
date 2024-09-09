@@ -48,6 +48,7 @@ class _DeviceFieldAnalyticsState extends BaseState<DeviceFieldAnalytics> {
       twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.recent;
   int? beginStamp;
   int? endStamp;
+  DateTimeRange? selectedDateRange;
 
   @override
   void initState() {
@@ -106,7 +107,12 @@ class _DeviceFieldAnalyticsState extends BaseState<DeviceFieldAnalytics> {
             yValueMapper: (TimeSeriesData sales, _) => sales.value));
       }
     }
-
+    String filterLabel = _getFilterLabel(filter);
+    if (filter == twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.range &&
+        selectedDateRange != null) {
+      filterLabel =
+          '${DateFormat('MM-dd-yyyy').format(selectedDateRange!.start)}  ${DateFormat('MM-dd-yyyy').format(selectedDateRange!.end)}';
+    }
     return Column(
       children: [
         Row(
@@ -156,7 +162,16 @@ class _DeviceFieldAnalyticsState extends BaseState<DeviceFieldAnalytics> {
             PopupMenuButton<
                 twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter>(
               initialValue: filter,
-              icon: const Icon(Icons.filter_alt_rounded),
+              icon: Row(
+                children: [
+                  Text(
+                    filterLabel,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  divider(horizontal: true),
+                  const Icon(Icons.filter_alt_rounded),
+                ],
+              ),
               tooltip: 'Show Filters',
               elevation: 10,
               itemBuilder: (context) {
@@ -298,12 +313,11 @@ class _DeviceFieldAnalyticsState extends BaseState<DeviceFieldAnalytics> {
             );
           });
 
-      if (null == picked) return;
-    }
-
-    if (null != picked) {
-      beginStamp = picked.start.millisecondsSinceEpoch;
-      endStamp = picked.end.millisecondsSinceEpoch;
+      if (picked != null) {
+        selectedDateRange = picked;
+        beginStamp = picked.start.millisecondsSinceEpoch;
+        endStamp = picked.end.millisecondsSinceEpoch;
+      }
     }
 
     debugPrint('begin: $beginStamp, end: $endStamp');
@@ -351,6 +365,36 @@ class _DeviceFieldAnalyticsState extends BaseState<DeviceFieldAnalytics> {
 
     refresh();
     loading = false;
+  }
+
+  String _getFilterLabel(
+      twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter? filter) {
+    switch (filter) {
+      case twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.recent:
+        return 'Recent';
+      case twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.today:
+        return 'Today';
+      case twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.yesterday:
+        return 'Yesterday';
+      case twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.thisweek:
+        return 'This Week';
+      case twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.lastweek:
+        return 'Last Week';
+      case twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.thismonth:
+        return 'This Month';
+      case twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.lastmonth:
+        return 'Last Month';
+      case twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.thisquarter:
+        return 'This Quarter';
+      case twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.thisyear:
+        return 'This Year';
+      case twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.lastyear:
+        return 'Last Year';
+      case twin.DeviceDataSeriesDeviceIdFieldPageSizeGetFilter.range:
+        return 'Date Range';
+      default:
+        return 'Filter';
+    }
   }
 
   @override
