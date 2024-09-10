@@ -80,12 +80,27 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   }
 
   Future<void> alert(String title, String message,
-      {String okText = 'Ok'}) async {
+      {String okText = 'Ok',
+      TextStyle? titleStyle,
+      TextStyle? contentStyle}) async {
     await showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
+        TextStyle titleTextStyle = titleStyle ??
+            GoogleFonts.lato(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            );
+        TextStyle messageTextStyle = contentStyle ??
+            GoogleFonts.lato(
+              fontSize: 13,
+              color: Colors.black,
+            );
         return AlertDialog(
+          titleTextStyle: titleTextStyle,
+          contentTextStyle: messageTextStyle,
           title: Text(title),
           content: SingleChildScrollView(
             child: ListBody(
@@ -96,7 +111,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(okText),
+              child: Text(okText,style: messageTextStyle,),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -120,7 +135,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     Widget cancelButton = ElevatedButton(
       child: Text(
         cancelButtonText,
-        style: labelTextStyle,
+        style: messageStyle,
       ),
       onPressed: () {
         Navigator.pop(context);
@@ -129,7 +144,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     Widget continueButton = ElevatedButton(
       child: Text(
         okButtonText,
-        style: labelTextStyle,
+        style: messageStyle,
       ),
       onPressed: () {
         Navigator.pop(context);
