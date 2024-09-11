@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ui_web';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:twin_commons/core/twinned_session.dart';
 import 'package:twinned_api/api/twinned.swagger.dart' as twin;
 import 'package:http/http.dart' as web;
-import 'package:universal_html/html.dart' as html;
 import 'package:twin_commons/core/picker.dart'
     if (dart.library.html) 'package:twin_commons/core/picker_web.dart'
     if (dart.library.io) 'package:twin_commons/core/picker_io.dart';
@@ -236,6 +234,21 @@ class TwinImageHelper {
     );
 
     return _upload(mpr, file);
+  }
+
+  static Widget getUnCachedDomainImage(String id,
+      {double scale = 1.0,
+      BoxFit fit = BoxFit.contain,
+      double? width,
+      double? height}) {
+    String domainKey = TwinnedSession.instance.domainKey;
+    return Image.network(
+      'https://${TwinnedSession.instance.host}/rest/nocode/TwinImage/download/$domainKey/$id',
+      scale: scale,
+      fit: fit,
+      width: width,
+      height: height,
+    );
   }
 
   static Widget getDomainImage(String id,
