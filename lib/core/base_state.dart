@@ -17,6 +17,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   static const TextStyle labelTextStyle =
       TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold);
   static event.EventEmitter layoutEvents = event.EventEmitter();
+  final List<event.Listener> _listeners = [];
   static const Widget missingImage = Icon(
     Icons.question_mark,
     size: 25,
@@ -38,6 +39,21 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
       }
       if (isAsync) busy(busy: false);
     });
+
+    _listeners.add(
+        BaseState.layoutEvents.on(PageEvent.eventRebuild.name, this, (o, e) {
+      if (mounted) {
+        setup();
+      }
+    }));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    for (event.Listener l in _listeners) {
+      BaseState.layoutEvents.off(l);
+    }
   }
 
   void setup();
