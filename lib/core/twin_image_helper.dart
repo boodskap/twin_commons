@@ -236,7 +236,7 @@ class TwinImageHelper {
     return _upload(mpr, file);
   }
 
-  static Widget getUnCachedDomainImage(String id,
+  static Image getUnCachedDomainImage(String id,
       {double scale = 1.0,
       BoxFit fit = BoxFit.contain,
       double? width,
