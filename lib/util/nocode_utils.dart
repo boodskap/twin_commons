@@ -157,7 +157,7 @@ class TwinUtils {
     }
   }
 
-  static Image? getDeviceModelIconImage(
+  static Widget? getDeviceModelIconImage(
       {required String field,
       required twin.DeviceModel deviceModel,
       double scale = 1.0,
@@ -169,7 +169,7 @@ class TwinUtils {
     }
   }
 
-  static Future<Image?> getDeviceModelIdIconImage(
+  static Future<Widget?> getDeviceModelIdIconImage(
       {required String field,
       required String modelId,
       double scale = 1.0,
@@ -194,7 +194,7 @@ class TwinUtils {
     }
   }
 
-  static Future<Image?> getDeviceIconImage(
+  static Future<Widget?> getDeviceIconImage(
       {required String field,
       required twin.Device device,
       double scale = 1.0,
@@ -203,7 +203,7 @@ class TwinUtils {
         field: field, modelId: device.modelId, scale: scale, fit: fit);
   }
 
-  static Future<Image?> getDeviceIdIconImage(
+  static Future<Widget?> getDeviceIdIconImage(
       {required String field,
       required String deviceId,
       double scale = 1.0,
