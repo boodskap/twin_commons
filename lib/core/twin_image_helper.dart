@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'dart:ui_web';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as web;
-import 'package:twinned_api/api/twinned.swagger.dart' as twin;
 import 'package:file_picker/file_picker.dart';
 import 'package:twin_commons/core/twinned_session.dart';
+import 'package:twinned_api/api/twinned.swagger.dart' as twin;
+import 'package:http/http.dart' as web;
+import 'package:universal_html/html.dart' as html;
 import 'package:twin_commons/core/picker.dart'
     if (dart.library.html) 'package:twin_commons/core/picker_web.dart'
     if (dart.library.io) 'package:twin_commons/core/picker_io.dart';
@@ -236,7 +238,7 @@ class TwinImageHelper {
     return _upload(mpr, file);
   }
 
-  static Image getDomainImage(String id,
+  static Widget getDomainImage(String id,
       {double scale = 1.0,
       BoxFit fit = BoxFit.contain,
       double? width,
@@ -245,21 +247,16 @@ class TwinImageHelper {
         scale: scale, fit: fit, width: width, height: height);
   }
 
-  static Image getImage(String domainKey, String id,
+  static Widget getImage(String domainKey, String id,
       {double scale = 1.0,
       BoxFit fit = BoxFit.contain,
       double? width,
       double? height}) {
-    return Image.network(
-      'https://${TwinnedSession.instance.host}/rest/nocode/TwinImage/download/$domainKey/$id',
-      scale: scale,
-      fit: fit,
-      width: width,
-      height: height,
-    );
+    return getCachedImage(domainKey, id,
+        scale: scale, fit: fit, width: width, height: height);
   }
 
-  static CachedNetworkImage getCachedDomainImage(String id,
+  static Widget getCachedDomainImage(String id,
       {double scale = 1.0,
       BoxFit fit = BoxFit.contain,
       double? width,
@@ -268,11 +265,27 @@ class TwinImageHelper {
         scale: scale, fit: fit, width: width, height: height);
   }
 
-  static CachedNetworkImage getCachedImage(String domainKey, String id,
+  static Widget getCachedImage(String domainKey, String id,
       {double scale = 1.0,
       BoxFit fit = BoxFit.contain,
       double? width,
       double? height}) {
+    bool useCached = true;
+
+    if (kIsWeb) {
+      useCached = !Uri.base.toString().contains('localhost');
+    }
+
+    if (!useCached) {
+      return Image.network(
+        'https://${TwinnedSession.instance.host}/rest/nocode/TwinImage/download/$domainKey/$id',
+        scale: scale,
+        fit: fit,
+        width: width,
+        height: height,
+      );
+    }
+
     return CachedNetworkImage(
       imageUrl:
           "https://${TwinnedSession.instance.host}/rest/nocode/TwinImage/download/$domainKey/$id",
