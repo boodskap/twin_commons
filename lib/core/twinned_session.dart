@@ -179,6 +179,8 @@ class TwinnedSession {
         availableDevices: 0,
         availableUsers: 0,
         availableClients: 0,
-        availableDashboards: 0);
+        availableDashboards: 0,
+        availableModelParameters: 0,
+    );
   }
 }
