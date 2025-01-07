@@ -289,6 +289,8 @@ class TwinImageHelper {
       useCached = !Uri.base.toString().contains('localhost');
     }
 
+    useCached = false;
+
     if (!useCached) {
       return Image.network(
         'https://${TwinnedSession.instance.host}/rest/nocode/TwinImage/download/$domainKey/$id',
@@ -298,6 +300,14 @@ class TwinImageHelper {
         height: height,
       );
     }
+
+    return Image(
+      image: CachedNetworkImageProvider(
+          "https://${TwinnedSession.instance.host}/rest/nocode/TwinImage/download/$domainKey/$id"),
+      width: width,
+      height: height,
+      fit: fit,
+    );
 
     return CachedNetworkImage(
       imageUrl:
