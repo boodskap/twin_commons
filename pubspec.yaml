@@ -48,18 +48,18 @@ dependencies:
   mqtt5_client: ^4.0.3
   animated_battery_gauge: ^0.2.0
   shared_preferences: ^2.2.2
-  file_picker: ^8.0.0+1
+  file_picker: ^10.2.0
   flutter_session_manager: ^1.0.3
   google_fonts: ^5.0.0
-  flutter_map: ^6.1.0
-  flutter_map_cancellable_tile_provider: ^2.0.0
-  flutter_map_line_editor: ^6.0.0
+  flutter_map: ^8.1.1
+  flutter_map_cancellable_tile_provider: ^3.1.0
+  flutter_map_line_editor: ^8.0.0
   flutter_spinbox: ^0.13.1
   flutter_colorpicker: ^1.0.3
   flutter_font_picker: ^1.4.0
   easy_autocomplete: ^1.6.0
   community_charts_flutter: ^1.0.2
-  fl_chart: ^0.68.0
+  fl_chart: ^1.0.0
   timeago: ^3.6.1
   cached_network_image: 3.4.1
   #----------------- End External Dependencies -----------------#
