@@ -98,7 +98,7 @@ class _LineAreaChartWidgetState extends State<LineAreaChartWidget> {
       String day = dayFormat
           .format(DateTime.fromMillisecondsSinceEpoch(widget.xAxis[index]));
       return SideTitleWidget(
-        axisSide: meta.axisSide,
+        meta: meta,
         space: widget.spacing,
         child: Tooltip(
             message: tip,
